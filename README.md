@@ -40,12 +40,14 @@
 - Matplotlib
 
 ### 安装步骤
+```bash
+# 克隆仓库
 git clone https://github.com/ZephTT/hybrid-evolutionary-model.git
 cd hybrid-evolutionary-model
 
-## 安装依赖（推荐使用虚拟环境）
+# 安装依赖（推荐使用虚拟环境）
 pip install numpy scipy matplotlib
-
+```
 ## 快速开始
 **运行默认模拟**
 ```bash
