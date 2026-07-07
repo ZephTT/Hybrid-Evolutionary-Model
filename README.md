@@ -29,8 +29,15 @@
 - **可视化面板**：一次性展示所有关键指标，便于快速分析。
 - **参数实验框架**：批量运行不同参数组合，自动生成对比柱状图。
 
----
-
+## 版本说名
+```bash
+Hybrid-Evolutionary-Model.py为完整版
+而Hybrid-Evolutionary-Model_deving.py为未完成版
+新增了 `run_interactive_simulation() ` 交互式动画
+在`visualize()`中加入了适应度函数
+把 `calculate_evolutionary_metrics()` 的指标整合到新版的信息面板中。
+技术时代标签：在 `__init__` 里加一个 `era_names` 参数，让用户自定义。
+```
 ## 安装与依赖
 
 ### 环境要求
