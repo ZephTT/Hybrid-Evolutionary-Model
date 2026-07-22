@@ -3,9 +3,9 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-一个模拟种群在动态环境和技术突破驱动下适应性演化的 Python 模型。适合用于教学演示、进化生物学研究、以及技术演化理论的计算机实验。
-** 基础模型为本人制作，后辅以AI完善优化**
----
+一个模拟种群在动态环境和技术突破驱动下适应性演化的 Python 模型。适合用于教学演示、进化生物学研究、以及技术演化理论的计算机实验
+
+**基础模型为本人制作，后辅以AI完善优化**
 
 ## 项目背景
 
