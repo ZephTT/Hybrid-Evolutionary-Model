@@ -164,3 +164,185 @@ model.run_parameter_experiment(experiments)
 
 ## 联系
 如有问题或建议，请通过 GitHub Issues 联系，或发送邮件至 kevin_dai2011@outlook.com
+# ENGLISH VERSION
+# Hybrid Evolutionary Model
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Python model that simulates the adaptive evolution of a population driven by dynamic environments and technological breakthroughs. Suitable for educational demonstrations, evolutionary biology research, and computational experiments on theories of technological evolution.
+
+**The base model was created by the author, and subsequently refined and optimized with AI assistance.**
+
+## Project Background
+
+The evolution of biological populations is shaped not only by natural selection, mutation, and genetic drift but also strongly by environmental changes. When the environment undergoes drastic shifts (e.g., climate upheaval, emergence of new resources), populations must rapidly adapt to new niches or face extinction.
+
+This model abstracts this process into the evolution of a **“trait”** , with the environment described by a **Gaussian niche** (optimum value and width). Notably, the model introduces a **“technological breakthrough”** mechanism—when improvement in population fitness stagnates, the environmental optimum jumps, simulating the impact of “technological paradigm shifts” in human societies or “key innovations” in nature on population evolution.
+
+By tuning parameters such as mutation rate, selection pressure, recombination intensity, and environmental noise, you can explore the fate of populations under different conditions: diversification, adaptive radiation, or local extinction due to inability to keep pace with change.
+
+---
+
+## Core Features
+
+- **Continuous trait evolution**: Each individual is represented by a real number denoting its trait, e.g., body size, metabolic rate, or technological capability.
+- **Gaussian fitness landscape**: Fitness is determined by the distance between an individual's trait and the environmental optimum, multiplied by environmental noise and a density-dependent factor (the closer the population is to the carrying capacity, the lower the fitness).
+- **Selection and reproduction**: Individuals with higher fitness have a higher probability of reproducing; offspring generate variation through **mutation** (multi-scale step sizes) and **recombination** (mid-parent mean plus noise).
+- **Technological breakthrough mechanism**:
+  - **Adaptive mode**: Automatically triggers a breakthrough (random shift in the environmental optimum) when the improvement rate of the population's mean fitness over consecutive generations falls below a threshold.
+  - **Fixed mode**: Breakthroughs occur at predefined generations (useful for controlled experiments).
+- **Rich population dynamics recording**: Includes mean trait, diversity (number of distinct trait values), population size, average fitness, and extinction events (when a particular trait value disappears from the population).
+- **Visualization panel**: Displays all key metrics at once for rapid analysis.
+- **Parameter experiment framework**: Batch-runs different parameter combinations and automatically generates comparative bar charts.
+
+---
+
+## Version Notes
+
+In the `main` branch,  
+`Hybrid-Evolutionary-Model.py` is the full version.  
+In the `dev-buggy-version` branch,  
+`Hybrid-Evolutionary-Model_deving.py` is an unfinished version that adds:
+- An interactive animation function `run_interactive_simulation()` (unfinished)
+- Fitness function display within `visualize()`
+- Integration of metrics from `calculate_evolutionary_metrics()` into the new information panel.
+- Technological era labels: an `era_names` parameter in `__init__` for user customization.
+
+## Installation and Dependencies
+
+### Requirements
+- Python 3.8 or higher
+- NumPy
+- SciPy
+- Matplotlib
+
+### Installation Steps
+```bash
+# Clone the repository
+git clone https://github.com/ZephTT/hybrid-evolutionary-model.git
+cd hybrid-evolutionary-model
+
+# Install dependencies (use of a virtual environment is recommended)
+pip install numpy scipy matplotlib
+```
+
+Quick Start
+
+Run the default simulation
+
+```bash
+python hybrid_evolution.py
+The script will run for 150 generations and display a panel with all charts. The console will print a status summary every 25 generations.
+```
+
+Customizing Parameters
+Modify the parameters of HybridEvolutionaryModel inside if __name__ == "__main__":, for example:
+
+```python
+model = HybridEvolutionaryModel(
+    initial_population=800,
+    initial_trait_mean=1.2,
+    initial_trait_std=0.2,
+    generations=150,
+    mutation_rate=0.03,
+    recombination_rate=0.05,
+    recombination_noise=0.05,
+    carrying_capacity=2000,
+    selection_pressure=2.0,
+    env_noise=0.03,
+    tech_mode='adaptive',          # or 'fixed'
+    adaptive_threshold=0.008,
+    min_breakthrough_gap=15,
+    seed=42                         # fix seed for reproducibility
+)
+history = model.simulate()
+model.visualize()
+```
+
+Running a Parameter Experiment
+The script will ask whether to run a set of preset experiments (high/low mutation rate, high/low selection pressure, small carrying capacity, no recombination). Enter y to execute and display the comparison results.
+
+You can also customize the experiment list:
+
+```python
+experiments = [
+    {'name': 'High Mutation Rate', 'mutation_rate': 0.08},
+    {'name': 'Strong Selection', 'selection_pressure': 4.0},
+    # ...
+]
+model.run_parameter_experiment(experiments)
+```
+
+Main Parameter Descriptions
+
+Parameter Type Default Description
+initial_population int 800 Initial number of individuals
+initial_trait_mean float 1.0 Initial mean trait value
+initial_trait_std float 0.2 Initial trait standard deviation
+generations int 150 Total number of generations to simulate
+mutation_rate float 0.03 Probability of mutation per individual
+mutation_step_options List[float] [0.1,0.3,0.5,1.0] Available mutation step sizes
+mutation_step_weights List[float] [0.5,0.3,0.15,0.05] Weights corresponding to each step size
+recombination_rate float 0.05 Probability of recombination for a mated pair
+recombination_noise float 0.05 Std dev of normal noise added to offspring's deviation from the parental mean
+carrying_capacity int 2000 Environmental carrying capacity (population ceiling)
+selection_pressure float 2.0 Exponential amplification factor for fitness (higher = stronger selection)
+env_noise float 0.03 Magnitude of multiplicative environmental noise on fitness
+tech_mode str 'adaptive' 'adaptive' or 'fixed'
+fixed_breakthroughs List[int] [] List of generations for fixed breakthroughs (only used in fixed mode)
+adaptive_threshold float 0.008 Adaptive breakthrough threshold (triggers when improvement rate falls below this)
+min_breakthrough_gap int 15 Minimum gap between breakthroughs in adaptive mode
+seed int None Random seed (set an integer for reproducibility)
+
+Output and Chart Interpretation
+
+After running visualize(), you will see a comprehensive panel with 8 subplots:
+
+Subplot Position Content Interpretation
+Top-left (0, :2) Mean trait evolution vs. environmental optimum Blue curve = population mean, red dashed line = current environmental optimum. Purple vertical lines indicate technological breakthroughs; observe whether the population tracks environmental changes.
+Top-middle (0, 2) Population dynamics (dual y-axes) Green = diversity (number of distinct trait values), magenta = population size. Observe the relationship between diversity changes and population size.
+Top-right (0, 3) Average fitness Higher fitness means better adaptation to the environment. After a breakthrough, fitness usually drops first and then recovers.
+Middle-left (1, :2) Final trait distribution (kernel density plot) Shows the trait distribution at the end of the simulation, revealing whether it is multimodal (differentiated) or unimodal.
+Middle-middle (1, 2) Trait change rate Reflects the speed of evolution; sharp changes often occur at breakthroughs.
+Middle-right (1, 3) Extinction events Scatter plot showing trait values that went extinct in a given generation; bubble size indicates the proportion of that trait in the population before extinction. Many extinctions may indicate a drastic environmental shift.
+Bottom-left (2, :3) Technological era transitions X-axis = generation, Y-axis = era number; upward steps indicate breakthroughs.
+Bottom-right (2, 3) Simulation information summary Lists the configuration and key outcome statistics for easy screenshot recording.
+
+Core Mechanism Details (Simplified)
+
+Fitness Calculation:
+The fitness of an individual with trait x is proportional to exp(- (x - opt)^2 / (2*width^2)) , then multiplied by environmental noise (a random factor between 0.7 and 1.3) and a density-dependent factor (which decreases as the population fills up). Finally, it is amplified exponentially by selection_pressure to strengthen selection effects.
+
+Mutation:
+Each individual mutates with probability mutation_rate. The mutation step size is randomly chosen from mutation_step_options according to mutation_step_weights, and multiplied by a jitter factor (0.8–1.2). The direction of mutation is positive (increasing trait value) 70% of the time and negative 30% of the time.
+
+Recombination:
+During reproduction, individuals in the parent pool are randomly paired. Each pair undergoes recombination with probability recombination_rate—both offspring take the parental mean plus normally distributed noise with mean 0 and standard deviation recombination_noise. Non-recombined offspring directly inherit the parental traits.
+
+Technological Breakthrough:
+In adaptive mode, every generation checks the improvement rate of average fitness relative to the previous generation. If the improvement rate drops below adaptive_threshold and the time since the last breakthrough exceeds min_breakthrough_gap, a breakthrough is triggered. The new optimum = current population mean trait + random offset (normally distributed with mean 0.8, std 0.3), and the new niche width becomes 0.8 times the previous width (the environment becomes "narrower", demanding more precise adaptation).
+
+Application Scenarios
+
+Educational demonstration: Intuitively showcase concepts such as natural selection, genetic drift, and niche construction.
+Hypothesis testing: Explore how mutation rate, selection strength, and frequency of environmental change affect a population's adaptability and diversity.
+Technological evolution research: Simulate the impact of "technological paradigm shifts" on cultural evolution in groups.
+Parameter sensitivity analysis: Use the experiment framework to quickly assess the importance of different parameters.
+
+Contributing
+
+Issues and Pull Requests are welcome! If you add new features or improve the code, please ensure:
+The code follows PEP 8 style.
+Add necessary comments.
+Update the README (if applicable).
+
+License
+
+This project is licensed under the MIT License. This means you are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, provided that you retain the original copyright notice. See the LICENSE file for more details.
+
+Contact
+
+For questions or suggestions, please reach out via GitHub Issues or email kevin_dai2011@outlook.com
+
+```
